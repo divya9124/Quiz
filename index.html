@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(
+                135deg,
+                #667eea,
+                #764ba2
+            );
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 15px;
+        }
+        #one {
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow:
+                0 15px 40px
+                rgba(0,0,0,0.2);
+        }
+        #one h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        #one p {
+            text-align: center;
+            color: #777;
+            margin-bottom: 30px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #444;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 13px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+        }
+        .input-group input:focus {
+            border-color: #667eea;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background:
+                linear-gradient(
+                    135deg,
+                    #667eea,
+                    #764ba2
+                );
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 8px 20px
+                rgba(102,126,234,0.4);
+        }
+        #two {
+            display: none;
+            width: 100%;
+            max-width: 850px;
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow:
+                0 15px 40px
+                rgba(0,0,0,0.2);
+        }
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+        .quiz-header h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .quiz-header h2 {
+            color: #667eea;
+            font-size: 20px;
+        }
+        .question {
+            background: #f8f9ff;
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+        }
+        .question-title {
+            display: block;
+            font-size: 17px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin: 8px 0;
+            cursor: pointer;
+        }
+        .option:hover {
+            background: #eef0ff;
+            border-color: #667eea;
+        }
+        .option input {
+            margin-right: 10px;
+            accent-color: #667eea;
+        }
+        #three {
+            display: none;
+            width: 100%;
+            max-width: 950px;
+        }
+        .certificate {
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow:
+                0 15px 40px
+                rgba(0,0,0,0.25);
+        }
+        .certificate-border {
+            border: 8px double #764ba2;
+            padding: 50px;
+            text-align: center;
+            min-height: 620px;
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffffff,
+                    #f7f5ff
+                );
+        }
+        .trophy {
+            font-size: 55px;
+            margin-bottom: 10px;
+        }
+        .certificate-border h1 {
+            color: #764ba2;
+            font-size: 38px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .certify-text {
+            color: #555;
+            font-size: 18px;
+        }
+        #vm {
+            color: #333;
+            font-size: 36px;
+            margin: 20px 0 10px;
+            text-decoration: underline;
+        }
+        .eapl {
+            color: #666;
+            font-size: 17px;
+            margin-bottom: 25px;
+        }
+        .completion-text {
+            color: #555;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .quiz-name {
+            color: #667eea;
+            font-size: 30px;
+            margin: 12px 0 25px;
+        }
+        .score-box {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 15px 50px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+        .score-title {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        #vm1 {
+            font-size: 38px;
+            font-weight: bold;
+        }
+        .certificate-message {
+            max-width: 600px;
+            margin: auto;
+            color: #555;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        .certificate-footer {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 50px;
+        }
+        .signature {
+            color: #555;
+        }
+        .line {
+            width: 160px;
+            border-top: 2px solid #555;
+            margin-bottom: 8px;
+        }
+        .print-btn {
+            width: 220px;
+            margin-top: 30px;
+        }
+        @media(max-width:600px) {
+            #one,#two {
+                padding: 25px;
+            }
+            .certificate-border {
+                padding: 30px 15px;
+            }
+            .certificate-border h1 {
+                font-size: 26px;
+            }
+            #vm {
+                font-size: 28px;
+            }
+            .quiz-name {
+                font-size: 24px;
+            }
+            .certificate-footer {
+                flex-direction: column;
+                gap: 25px;
+
+            }
+
+        }
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            #one,#two,.print-btn {
+                display: none !important;
+            }
+            #three {
+                display: block !important;
+                max-width: 100%;
+            }
+            .certificate {
+                box-shadow: none;
+            }
+            .certificate-border {
+                min-height: 90vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="one">
+        <h1>🧠 JavaScript Quiz</h1>
+        <p>
+            Test your JavaScript knowledge
+        </p>
+        <div class="input-group">
+            <label>Name</label>
+            <input type="text" id="vd1" placeholder="Enter your name" required>
+        </div>
+        <div class="input-group">
+            <label>EAPL ID</label>
+            <input type="number" id="vd2" placeholder="Enter your EAPL ID" required>
+        </div>
+        <button onclick="work1()">Start Quiz 🚀</button>
+
+    </div>
+
+
+
+    <div id="two">
+
+
+        <div class="quiz-header">
+
+            <h1>
+                📝 JavaScript Quiz
+            </h1>
+
+            <h2 id="name"></h2>
+
+        </div>
+
+        <div class="question">
+
+            <label class="question-title">
+                1. Which keyword is commonly used to declare a variable in JavaScript?
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans1">
+                Define
+            </label>
+
+            <label class="option">
+                <input type="radio"
+                       name="ans1"
+                       id="crt1">
+                Let
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans1">
+                Declare
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans1">
+                Variable
+            </label>
+
+        </div>
+
+        <div class="question">
+
+            <label class="question-title">
+                2. Which symbol is used for a single-line comment in JavaScript?
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans2">
+                **
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans2">
+                ##
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans2">
+                &amp;
+            </label>
+
+            <label class="option">
+                <input type="radio"
+                       name="ans2"
+                       id="crt2">
+                //
+            </label>
+
+        </div>
+
+        <div class="question">
+
+            <label class="question-title">
+                3. Which method displays a message in a browser alert box?
+            </label>
+
+            <label class="option">
+                <input type="radio"
+                       name="ans3"
+                       id="crt3">
+                alert()
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans3">
+                display()
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans3">
+                show()
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans3">
+                message()
+            </label>
+
+        </div>
+
+        <div class="question">
+
+            <label class="question-title">
+                4. Which operator checks both value and data type in JavaScript?
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans4">
+                =
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans4">
+                ==
+            </label>
+
+            <label class="option">
+                <input type="radio"
+                       name="ans4"
+                       id="crt4">
+                ===
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans4">
+                !=
+            </label>
+
+        </div>
+
+        <div class="question">
+
+            <label class="question-title">
+                5. Which data type represents true or false in JavaScript?
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans5">
+                Object
+            </label>
+
+            <label class="option">
+                <input type="radio"
+                       name="ans5"
+                       id="crt5">
+                Boolean
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans5">
+                Number
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans5">
+                String
+            </label>
+
+        </div>
+
+        <div class="question">
+
+            <label class="question-title">
+                6. What does the '===' operator check in JavaScript?
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans6">
+                Value Equality only
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans6">
+                Reference Equality only
+            </label>
+
+            <label class="option">
+                <input type="radio"
+                       name="ans6"
+                       id="crt6">
+                Value and Type Equality
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans6">
+                Type Equality only
+            </label>
+
+        </div>
+
+        <div class="question">
+
+            <label class="question-title">
+                7. Which method converts a JSON string into a JavaScript object?
+            </label>
+
+            <label class="option">
+                <input type="radio"
+                       name="ans7"
+                       id="crt7">
+                JSON.parse()
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans7">
+                JSON.convert()
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans7">
+                Object.assign()
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans7">
+                JSON.stringify()
+            </label>
+
+        </div>
+
+        <div class="question">
+
+            <label class="question-title">
+                8. Which function converts a string such as "25" into an integer?
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans8">
+                toString()
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans8">
+                integer()
+            </label>
+
+            <label class="option">
+                <input type="radio"
+                       name="ans8"
+                       id="crt8">
+                parseInt()
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans8">
+                parseText()
+            </label>
+
+        </div>
+
+        <div class="question">
+
+            <label class="question-title">
+                9. Which object is commonly used to access HTML elements in JavaScript?
+            </label>
+
+            <label class="option">
+                <input type="radio"
+                       name="ans9"
+                       id="crt9">
+                Document
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans9">
+                Browser
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans9">
+                Screen
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans9">
+                windowStyle
+            </label>
+
+        </div>
+
+        <div class="question">
+
+            <label class="question-title">
+                10. Which method selects an HTML element by its id?
+            </label>
+
+            <label class="option">
+                <input type="radio"
+                       name="ans10"
+                       id="crt10">
+                getElementById()
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans10">
+                findId()
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans10">
+                selectById()
+            </label>
+
+            <label class="option">
+                <input type="radio" name="ans10">
+                getElementByClass()
+            </label>
+
+        </div>
+
+
+
+        <button onclick="work()">
+            Submit Quiz 🎯
+        </button>
+
+    </div>
+    <div id="three">
+
+        <div class="certificate">
+
+            <div class="certificate-border">
+
+                <div class="trophy">
+                    🏆
+                </div>
+
+
+                <h1>
+                    Certificate of Achievement
+                </h1>
+
+
+                <p class="certify-text">
+                    This certificate is proudly presented to
+                </p>
+
+
+               
+                <h2 id="vm"></h2>
+
+
+                <p class="eapl">
+                    EAPL ID:
+                    <span id="certificateId"></span>
+                </p>
+
+
+                <p class="completion-text">
+                    for successfully completing the
+                </p>
+
+
+                <h3 class="quiz-name">
+                    JavaScript Quiz
+                </h3>
+
+
+                <div class="score-box">
+
+                    <p class="score-title">
+                        Quiz Score
+                    </p>
+
+                
+                    <div id="vm1"></div>
+
+                    <span>
+                        out of 10
+                    </span>
+
+                </div>
+
+
+                <p class="certificate-message">
+
+                    This certificate recognizes the successful
+                    completion of the JavaScript assessment.
+
+                </p>
+
+
+                <div class="certificate-footer">
+
+                    <div class="signature">
+
+                        <p class="line"></p>
+
+                        <p>
+                            Quiz Coordinator
+                        </p>
+
+                    </div>
+
+
+                    <div class="signature">
+
+                        <p class="line"></p>
+
+                        <p>
+                            Date
+                        </p>
+
+                        <p id="certificateDate"></p>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="print-btn"
+                    onclick="window.print()">
+
+                    🖨️ Print Certificate
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+    <script>
+
+        function work(){
+
+            score=0;
+
+            a=document.getElementById("crt1")
+
+            if(a.checked){
+
+                score=score+1;
+
+            }
+
+
+            b=document.getElementById("crt2")
+
+            if(b.checked){
+
+                score=score+1
+
+            }
+
+
+            c=document.getElementById("crt3")
+
+            if(c.checked){
+
+                score=score+1
+
+            }
+
+
+            d=document.getElementById("crt4")
+
+            if(d.checked){
+
+                score=score+1
+
+            }
+
+
+            e=document.getElementById("crt5")
+
+            if(e.checked){
+
+                score=score+1
+
+            }
+            f=document.getElementById("crt6")
+            if(f.checked){
+                score=score+1
+            }
+            g=document.getElementById("crt7")
+            if(g.checked){
+                score=score+1
+            }
+            h=document.getElementById("crt8")
+            if(h.checked){
+                score=score+1
+            }
+            i=document.getElementById("crt9")
+            if(i.checked){
+                score=score+1
+            }
+            j=document.getElementById("crt10")
+            if(j.checked){
+                score=score+1
+            }
+            alert("Your Score is "+score)
+            b=document.getElementById("two")
+            b.style.display="none";
+            c=document.getElementById("three")
+            c.style.display="block";
+            aa=document.getElementById("name")
+            bb=document.getElementById("vm")
+            bb.innerHTML=aa.innerHTML
+            cc=document.getElementById("vm1")
+            cc.innerHTML=score
+            eapl =
+                document.getElementById("vd2").value;
+            document.getElementById(
+                "certificateId"
+            ).innerHTML = eapl;
+            today = new Date();
+            document.getElementById(
+                "certificateDate"
+            ).innerHTML =
+                today.toLocaleDateString("en-IN");
+        }
+        function work1(){
+            a1=document.getElementById("vd1").value;
+            b1=document.getElementById("vd2").value;
+            c=document.getElementById("name")
+            c.innerHTML=a1 + "<br>" + b1
+            a=document.getElementById("one")
+            a.style.display="none";
+            b=document.getElementById("two")
+            b.style.display="block";
+        }
+    </script>
+</body>
+</html>
